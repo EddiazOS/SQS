@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syntropyc | Deep Tech</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+    
+    <!-- AOS CSS for animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'sqs-dark': '#060314',
+                        'sqs-primary': '#1d1160',
+                        'sqs-secondary': '#ff6b6b',
+                        'sqs-accent': '#8ecae6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #060314;
+            color: #ffffff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Typography */
+        h1, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.01em;
+            font-weight: 400 !important;
+        }
+        
+        .brand-text {
+            font-family: 'Playfair Display', serif;
+            font-weight: 500 !important;
+        }
+
+        /* Fallback for AOS if JS fails */
+        [data-aos] {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        /* Particles Background Container */
+        #tsparticles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at center, #0a061d 0%, #060314 100%);
+        }
+
+        .glass-nav {
+            background: rgba(6, 3, 20, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        /* Interactive glow effect created by JS */
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.06), transparent 40%);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .glass-card:hover::after {
+            opacity: 1;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(142, 202, 230, 0.3);
+            box-shadow: 0 40px 80px -15px rgba(29, 17, 96, 0.6), 0 0 40px rgba(142, 202, 230, 0.1);
+        }
+
+        /* 3D content inside tilt cards */
+        .tilt-content {
+            transform: translateZ(30px);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #8ecae6 50%, #ff6b6b 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% 200%;
+            animation: gradient-shift 5s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #ff6b6b, #ff4757);
+            box-shadow: 0 10px 30px -10px rgba(255, 107, 107, 0.7);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 15px 40px -10px rgba(255, 107, 107, 0.9);
+        }
+
+        /* Custom Form Inputs */
+        .form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-input:focus {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #8ecae6;
+            box-shadow: 0 0 20px rgba(142, 202, 230, 0.2);
+        }
+
+        /* WhatsApp Floating Button */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .whatsapp-float:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
+        }
+
+        .whatsapp-float::before {
+            content: '';
+            position: absolute;
+            width: 100%; height: 100%;
+            background-color: #25d366;
+            border-radius: 50%;
+            z-index: -1;
+            animation: pulse-wa 2s infinite;
+        }
+
+        @keyframes pulse-wa {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .image-mask {
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        }
+    </style>
+
+    <!-- JS Libraries -->
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- tsParticles for quantum backgrounds -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+    <!-- Vanilla Tilt for 3D card effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+</head>
+<body class="antialiased selection:bg-sqs-secondary selection:text-white">
+
+    <!-- Quantum Background -->
+    <div id="tsparticles"></div>
+
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 w-full z-50 glass-nav py-4 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 max-w-7xl flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3 group">
+                <img src="Logo Syntropyc.jpeg" alt="Syntropyc Logo" class="h-10 w-10 object-cover rounded-lg shadow-lg border border-white/10 group-hover:scale-105 transition-transform" onerror="this.src='https://via.placeholder.com/40x40/1d1160/ffffff?text=S'">
+                <span class="text-xl font-bold tracking-[0.2em] uppercase text-white group-hover:text-sqs-accent transition-colors brand-text">Syntropyc</span>
+            </a>
+            <div class="hidden md:flex gap-8 text-sm font-medium text-gray-300">
+                <a href="#vision" class="hover:text-sqs-accent transition-colors">Visión</a>
+                <a href="#servicios" class="hover:text-sqs-accent transition-colors">Servicios</a>
+                <a href="#modelos" class="hover:text-sqs-accent transition-colors">Modelos</a>
+                <a href="#contacto" class="hover:text-sqs-accent transition-colors">Contacto</a>
+            </div>
+            <div>
+                <a href="#contacto" class="btn-primary px-6 py-2 rounded-full font-medium text-sm text-white">Iniciar Proyecto</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="relative min-h-screen flex items-center pt-20 z-10">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Text Content -->
+                <div data-aos="fade-right" data-aos-duration="1200">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sqs-accent text-sm font-semibold mb-6 backdrop-blur-md">
+                        <span class="w-2 h-2 rounded-full bg-sqs-accent animate-pulse"></span>
+                        Firma de Tecnología Profunda
+                    </div>
+                    <h1 class="text-5xl lg:text-7xl font-black tracking-tight mb-6 leading-[1.1]">
+                        El puente entre la ciencia pura y la <br>
+                        <span class="text-gradient">tecnología aplicada.</span>
+                    </h1>
+                    <p class="text-xl text-gray-400 mb-10 max-w-xl leading-relaxed font-light">
+                        Combinamos física, química, biología computacional e inteligencia artificial para resolver problemas complejos y optimizar procesos industriales en la era <strong>Deep Tech</strong>.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#servicios" class="btn-primary px-8 py-4 text-white font-bold rounded-full flex items-center gap-2">
+                            Explorar Soluciones <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Visual Content -->
+                <div class="relative hidden lg:block animate-float tilt-element" data-aos="fade-left" data-aos-duration="1500" data-aos-delay="200">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-sqs-primary/40 to-transparent rounded-[3rem] transform rotate-3 scale-105 -z-10 blur-xl"></div>
+                    <img src="file:///C:/Users/ELIAS%20BELLO/.gemini/antigravity/brain/017c938d-519b-441c-9e1c-08ebf89ff891/hero_deep_tech_1778643130304.png" 
+                         alt="Syntropyc Deep Tech" 
+                         class="rounded-[3rem] shadow-2xl border border-white/10 w-full object-cover h-[600px]"
+                         onerror="this.style.display='none'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VISION SECTION -->
+    <section id="vision" class="py-32 relative z-10">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="grid lg:grid-cols-12 gap-12 items-start">
+                <div class="lg:col-span-5" data-aos="fade-up">
+                    <h2 class="text-sqs-accent font-bold tracking-widest uppercase mb-4 text-sm flex items-center gap-2">
+                        <i data-lucide="eye" class="w-4 h-4"></i> Nuestra Visión Deep Tech
+                    </h2>
+                    <h3 class="text-4xl md:text-5xl font-black mb-6">El Desafío<br>Deep Tech</h3>
+                    <div class="space-y-6">
+                        <p class="text-gray-400 text-lg leading-relaxed">
+                            En un ecosistema donde la exigencia por la innovación rápida y la validación rigurosa es cada vez mayor, la experimentación tradicional a menudo se encuentra con límites de tiempo, costo y viabilidad.
+                        </p>
+                        <p class="text-gray-400 text-lg leading-relaxed">
+                            <strong>Syntropyc Quantum Solutions (SQS)</strong> es una firma de Tecnología Profunda (Deep Tech) que actúa como puente entre la ciencia pura y la aplicación tecnológica. Combinamos la física, la química, la biología computacional, y la inteligencia artificial para resolver problemas complejos, tanto en la frontera del conocimiento académico como en la optimización de procesos industriales.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 grid sm:grid-cols-2 gap-6">
+                    <div class="glass-card p-8 group mt-0 sm:mt-12 interactive-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="tilt-content">
+                            <div class="w-14 h-14 rounded-2xl bg-sqs-accent/10 flex items-center justify-center mb-6 border border-sqs-accent/20 group-hover:bg-sqs-accent/20 transition-colors shadow-[0_0_15px_rgba(142,202,230,0.3)]">
+                                <i data-lucide="graduation-cap" class="text-sqs-accent w-7 h-7"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold mb-4">Para la Academia</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                Somos el aliado estratégico que provee el andamiaje teórico mediante modelado molecular para transformar resultados empíricos en publicaciones irrefutables.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="glass-card p-8 group interactive-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="tilt-content">
+                            <div class="w-14 h-14 rounded-2xl bg-sqs-secondary/10 flex items-center justify-center mb-6 border border-sqs-secondary/20 group-hover:bg-sqs-secondary/20 transition-colors shadow-[0_0_15px_rgba(255,107,107,0.3)]">
+                                <i data-lucide="building-2" class="text-sqs-secondary w-7 h-7"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold mb-4">Para la Industria</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                Aceleramos la innovación y reducimos los costos de I+D+i mediante plataformas de software a medida, simulaciones predictivas y modelos de IA, optimizando la toma de decisiones basada en datos.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section id="servicios" class="py-32 relative z-10 border-y border-white/5 bg-black/20 backdrop-blur-sm">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="text-center max-w-3xl mx-auto mb-20" data-aos="fade-up">
+                <h2 class="text-sqs-accent font-bold tracking-widest uppercase mb-4 text-sm">Portafolio</h2>
+                <h3 class="text-4xl md:text-6xl font-black mb-6">Líneas de Negocio y Servicios</h3>
+                <p class="text-gray-400 text-lg">Hemos estructurado nuestras capacidades científicas y tecnológicas en tres divisiones principales, adaptadas para generar el máximo impacto según la naturaleza de su organización.</p>
+            </div>
+
+            <div class="space-y-12">
+                <!-- Servicio 1 -->
+                <div class="glass-card overflow-hidden group interactive-card" data-aos="fade-up">
+                    <div class="grid md:grid-cols-2 tilt-content">
+                        <div class="p-10 lg:p-14 flex flex-col justify-center">
+                            <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-sqs-primary text-white font-black mb-8 shadow-[0_0_20px_rgba(29,17,96,0.8)] border border-white/10">1</div>
+                            <h4 class="text-3xl font-bold mb-4">Ingeniería Molecular <br>y Simulación Deep Tech</h4>
+                            <p class="text-gray-400 mb-8 leading-relaxed text-sm">Integramos el rigor de la física, la química y la biología computacional para construir representaciones digitales precisas de sistemas complejos. A través del despliegue de infraestructura de alto rendimiento (HPC), validamos hipótesis experimentales y predecimos el comportamiento termodinámico y cinético de moléculas y materiales, trasladando la experimentación empírica a un entorno in silico.</p>
+                            
+                            <div class="space-y-4">
+                                <div class="p-4 rounded-xl bg-white/5 border border-white/5">
+                                    <span class="block text-xs text-sqs-accent font-bold uppercase tracking-wider mb-2">Enfoque Académico</span>
+                                    <span class="text-sm text-gray-300 leading-relaxed block">Proveemos el andamiaje teórico fundamental (mediante DFT, métodos AbInitio, Dinámica Molecular, entre otros) para explicar fenómenos a nivel atómico, blindando los resultados experimentales y garantizando su publicación en revistas de alto factor de impacto (Q1/Q2).</span>
+                                </div>
+                                <div class="p-4 rounded-xl bg-white/5 border border-white/5">
+                                    <span class="block text-xs text-sqs-secondary font-bold uppercase tracking-wider mb-2">Enfoque Industrial</span>
+                                    <span class="text-sm text-gray-300 leading-relaxed block">Reducimos drásticamente los costos y tiempos de I+D. Optimizamos el diseño de nuevos materiales, fármacos o formulaciones mediante cribado virtual y modelado predictivo antes de incurrir en los gastos de síntesis física y escalado.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative h-64 md:h-auto overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-r from-[#060314] to-transparent z-10 hidden md:block"></div>
+                            <img src="file:///C:/Users/ELIAS%20BELLO/.gemini/antigravity/brain/017c938d-519b-441c-9e1c-08ebf89ff891/molecular_sim_1778643149719.png" alt="Simulación Molecular" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000 image-mask" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Servicio 2 -->
+                <div class="glass-card overflow-hidden group interactive-card" data-aos="fade-up">
+                    <div class="grid md:grid-cols-2 tilt-content">
+                        <div class="relative h-64 md:h-auto overflow-hidden order-2 md:order-1">
+                            <div class="absolute inset-0 bg-gradient-to-l from-[#060314] to-transparent z-10 hidden md:block"></div>
+                            <img src="file:///C:/Users/ELIAS%20BELLO/.gemini/antigravity/brain/017c938d-519b-441c-9e1c-08ebf89ff891/saas_ecosystem_3d_1778644763936.png" alt="SaaS Corporativos" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000 image-mask" onerror="this.style.display='none'">
+                        </div>
+                        <div class="p-10 lg:p-14 flex flex-col justify-center order-1 md:order-2">
+                            <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-sqs-primary text-white font-black mb-8 shadow-[0_0_20px_rgba(29,17,96,0.8)] border border-white/10">2</div>
+                            <h4 class="text-3xl font-bold mb-4">Diseño y Desarrollo de Ecosistemas SaaS Corporativos</h4>
+                            <p class="text-gray-400 mb-8 leading-relaxed text-sm">Construimos plataformas de software a medida, alojadas en la nube y altamente escalables, diseñadas para resolver cuellos de botella específicos en la gestión de la información. Traducimos lógicas operativas complejas en arquitecturas digitales seguras e intuitivas.</p>
+                            
+                            <div class="space-y-4">
+                                <div class="p-4 rounded-xl bg-white/5 border border-white/5">
+                                    <span class="block text-xs text-sqs-accent font-bold uppercase tracking-wider mb-2">Enfoque Académico e Institucional</span>
+                                    <span class="text-sm text-gray-300 leading-relaxed block">Desarrollo de repositorios dinámicos y herramientas en la nube para la gestión unificada de grandes volúmenes de datos experimentales, ideal para soportar macroproyectos y redes de investigación interinstitucionales.</span>
+                                </div>
+                                <div class="p-4 rounded-xl bg-white/5 border border-white/5">
+                                    <span class="block text-xs text-sqs-secondary font-bold uppercase tracking-wider mb-2">Enfoque Industrial</span>
+                                    <span class="text-sm text-gray-300 leading-relaxed block">Ingeniería de soluciones B2B exclusivas que digitalizan y automatizan procesos críticos de la empresa. Entregamos productos de software robustos que modernizan la infraestructura tecnológica del cliente.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Servicio 3 -->
+                <div class="glass-card overflow-hidden group interactive-card" data-aos="fade-up">
+                    <div class="grid md:grid-cols-2 tilt-content">
+                        <div class="p-10 lg:p-14 flex flex-col justify-center">
+                            <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-sqs-primary text-white font-black mb-8 shadow-[0_0_20px_rgba(29,17,96,0.8)] border border-white/10">3</div>
+                            <h4 class="text-3xl font-bold mb-4">Consultoría y Formación Estratégica en Inteligencia Artificial</h4>
+                            <p class="text-gray-400 mb-8 leading-relaxed text-sm">Lideramos la transferencia tecnológica necesaria para la transición hacia la era de la IA. Más allá de la implementación técnica, ofrecemos programas de inmersión y acompañamiento integral para empoderar a los equipos de trabajo.</p>
+                            
+                            <div class="space-y-4">
+                                <div class="p-4 rounded-xl bg-white/5 border border-white/5">
+                                    <span class="block text-xs text-sqs-accent font-bold uppercase tracking-wider mb-2">Enfoque Académico</span>
+                                    <span class="text-sm text-gray-300 leading-relaxed block">Capacitación especializada para grupos de investigación que buscan integrar herramientas de Machine Learning en sus metodologías de análisis de datos o en la formulación de macroproyectos (ej. ColombIA Inteligente).</span>
+                                </div>
+                                <div class="p-4 rounded-xl bg-white/5 border border-white/5">
+                                    <span class="block text-xs text-sqs-secondary font-bold uppercase tracking-wider mb-2">Enfoque Industrial e Institucional</span>
+                                    <span class="text-sm text-gray-300 leading-relaxed block">Alfabetización tecnológica corporativa. Identificamos oportunidades de automatización en los flujos de trabajo y capacitamos al personal para utilizar la IA como una palanca diaria de eficiencia e innovación.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative h-64 md:h-auto overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-r from-[#060314] to-transparent z-10 hidden md:block"></div>
+                            <img src="file:///C:/Users/ELIAS%20BELLO/.gemini/antigravity/brain/017c938d-519b-441c-9e1c-08ebf89ff891/ai_brain_1778643191634.png" alt="Inteligencia Artificial" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000 image-mask" onerror="this.style.display='none'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODELS & TIMELINE -->
+    <section id="modelos" class="py-32 relative z-10">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="grid lg:grid-cols-2 gap-16">
+                
+                <!-- Financial Models -->
+                <div data-aos="fade-right">
+                    <h2 class="text-sqs-accent font-bold tracking-widest uppercase mb-4 text-sm">Inversión</h2>
+                    <h3 class="text-4xl font-black mb-6">Modelos de Colaboración <br>y Estructura Financiera</h3>
+                    <p class="text-gray-400 mb-10">Comprendemos las diferentes dinámicas presupuestales entre el sector público, la academia y la industria privada. Nuestros modelos de contratación son flexibles y se estructuran para maximizar el retorno de inversión (ROI) de nuestros aliados.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="glass-card p-8 border-l-4 border-l-sqs-accent interactive-card">
+                            <div class="tilt-content">
+                                <h4 class="text-2xl font-bold mb-4 flex items-center gap-3">
+                                    <div class="p-2 bg-sqs-accent/10 rounded-lg"><i data-lucide="book-open" class="text-sqs-accent w-6 h-6"></i></div>
+                                    Sector Académico (Minciencias / SGR / Fondos Internos)
+                                </h4>
+                                <ul class="space-y-4 text-sm text-gray-300 mt-6">
+                                    <li class="flex items-start gap-3 bg-white/5 p-4 rounded-xl border border-white/5">
+                                        <i data-lucide="check-circle-2" class="w-5 h-5 text-sqs-accent shrink-0"></i> 
+                                        <div><strong>Prestación de Servicios:</strong> Tarifa preferencial para universidades. Se factura el costo computacional y honorarios. Ideal cuando se cuenta con rubros amplios y Syntropyc actúa solo como consultor técnico.</div>
+                                    </li>
+                                    <li class="flex items-start gap-3 bg-white/5 p-4 rounded-xl border border-white/5">
+                                        <i data-lucide="check-circle-2" class="w-5 h-5 text-sqs-accent shrink-0"></i> 
+                                        <div><strong>Modelo Híbrido (Descuento + Coautoría):</strong> Reducción de la cotización al costo operativo de la nube a cambio de coautoría científica. Syntropyc asume la redacción del sustento teórico del manuscrito.</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-card p-8 border-l-4 border-l-sqs-secondary interactive-card">
+                            <div class="tilt-content">
+                                <h4 class="text-2xl font-bold mb-4 flex items-center gap-3">
+                                    <div class="p-2 bg-sqs-secondary/10 rounded-lg"><i data-lucide="briefcase" class="text-sqs-secondary w-6 h-6"></i></div>
+                                    Sector Empresarial (B2B e Industria)
+                                </h4>
+                                <ul class="space-y-4 text-sm text-gray-300 mt-6">
+                                    <li class="flex items-start gap-3 bg-white/5 p-4 rounded-xl border border-white/5">
+                                        <i data-lucide="check-circle-2" class="w-5 h-5 text-sqs-secondary shrink-0"></i> 
+                                        <div><strong>Consultoría Deep Tech por Proyecto:</strong> Facturación por ciclo cerrado. Entrega de resultados específicos (reportes in silico, modelos analíticos, licenciamiento de código o despliegue SaaS) bajo cronograma y presupuesto fijo.</div>
+                                    </li>
+                                    <li class="flex items-start gap-3 bg-white/5 p-4 rounded-xl border border-white/5">
+                                        <i data-lucide="check-circle-2" class="w-5 h-5 text-sqs-secondary shrink-0"></i> 
+                                        <div><strong>Outsourcing de I+D+i:</strong> Contrato de retención (Retainer). Syntropyc actúa como su departamento externo de innovación algorítmica y simulación computacional de manera continua.</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline -->
+                <div data-aos="fade-left">
+                    <h2 class="text-sqs-accent font-bold tracking-widest uppercase mb-4 text-sm">Metodología</h2>
+                    <h3 class="text-4xl font-black mb-8">Ruta de Trabajo Conjunto</h3>
+                    
+                    <div class="relative pl-8 space-y-10 border-l-2 border-white/10 mt-10">
+                        <div class="relative interactive-card p-6 glass-card before:hidden">
+                            <div class="absolute -left-[67px] top-4 w-10 h-10 rounded-full bg-[#060314] border-2 border-sqs-accent flex items-center justify-center shadow-[0_0_15px_rgba(142,202,230,0.5)] z-10">
+                                <span class="font-bold text-sqs-accent">1</span>
+                            </div>
+                            <h5 class="text-xl font-bold text-white mb-2">Reunión Técnica de Levantamiento</h5>
+                            <p class="text-sm text-gray-400">Diagnóstico de la necesidad (sistema físico-químico a simular, proceso a automatizar con SaaS o área a intervenir con IA).</p>
+                        </div>
+                        <div class="relative interactive-card p-6 glass-card before:hidden">
+                            <div class="absolute -left-[67px] top-4 w-10 h-10 rounded-full bg-[#060314] border-2 border-sqs-secondary flex items-center justify-center shadow-[0_0_15px_rgba(255,107,107,0.5)] z-10">
+                                <span class="font-bold text-sqs-secondary">2</span>
+                            </div>
+                            <h5 class="text-xl font-bold text-white mb-2">Arquitectura de la Solución y Cotización</h5>
+                            <p class="text-sm text-gray-400">Entrega de propuesta formal con requerimientos de infraestructura (HPC o Cloud), stack tecnológico y cronograma.</p>
+                        </div>
+                        <div class="relative interactive-card p-6 glass-card before:hidden">
+                            <div class="absolute -left-[67px] top-4 w-10 h-10 rounded-full bg-[#060314] border-2 border-sqs-accent flex items-center justify-center shadow-[0_0_15px_rgba(142,202,230,0.5)] z-10">
+                                <span class="font-bold text-sqs-accent">3</span>
+                            </div>
+                            <h5 class="text-xl font-bold text-white mb-2">Despliegue y Ejecución</h5>
+                            <p class="text-sm text-gray-400">Desarrollo del código, entrenamiento de modelos o ejecución de cálculos en nuestros servidores de alto rendimiento.</p>
+                        </div>
+                        <div class="relative interactive-card p-6 glass-card before:hidden">
+                            <div class="absolute -left-[67px] top-4 w-10 h-10 rounded-full bg-[#060314] border-2 border-sqs-secondary flex items-center justify-center shadow-[0_0_15px_rgba(255,107,107,0.5)] z-10">
+                                <span class="font-bold text-sqs-secondary">4</span>
+                            </div>
+                            <h5 class="text-xl font-bold text-white mb-2">Entrega, Transferencia y Soporte</h5>
+                            <p class="text-sm text-gray-400">Discusión de resultados, entrega de productos digitales funcionales, material teórico y capacitación de usuarios finales.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION (NEW) -->
+    <section id="contacto" class="py-32 relative z-10 border-t border-white/5 bg-black/40 backdrop-blur-md">
+        <div class="container mx-auto px-6 max-w-5xl">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-sqs-accent font-bold tracking-widest uppercase mb-4 text-sm">Contáctanos</h2>
+                <h3 class="text-4xl md:text-5xl font-black mb-6">Iniciemos tu próximo <br>proyecto Deep Tech</h3>
+            </div>
+
+            <div class="glass-card p-10 md:p-14" data-aos="fade-up" data-aos-delay="100">
+                <form class="grid md:grid-cols-2 gap-8" onsubmit="event.preventDefault(); window.open('https://wa.me/573148871652?text=Hola,%20me%20gustaría%20obtener%20más%20información%20sobre%20los%20servicios%20de%20Syntropyc.');">
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-gray-300 ml-1">Nombre Completo</label>
+                        <input type="text" placeholder="Dr. Jane Doe" class="form-input" required>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-gray-300 ml-1">Correo Electrónico</label>
+                        <input type="email" placeholder="jane@universidad.edu" class="form-input" required>
+                    </div>
+                    <div class="md:col-span-2 space-y-2">
+                        <label class="text-sm font-medium text-gray-300 ml-1">Organización / Institución</label>
+                        <input type="text" placeholder="Nombre de tu empresa o grupo de investigación" class="form-input">
+                    </div>
+                    <div class="md:col-span-2 space-y-2">
+                        <label class="text-sm font-medium text-gray-300 ml-1">¿Cómo podemos ayudarte?</label>
+                        <textarea rows="4" placeholder="Describe brevemente tu necesidad tecnológica..." class="form-input resize-none" required></textarea>
+                    </div>
+                    <div class="md:col-span-2 text-center mt-4">
+                        <button type="submit" class="btn-primary w-full md:w-auto px-12 py-4 text-white font-bold rounded-full text-lg shadow-[0_0_30px_rgba(255,107,107,0.4)]">
+                            Enviar Mensaje
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 bg-[#04020d] pt-20 pb-10">
+        <div class="container mx-auto px-6 max-w-7xl text-center">
+            
+            <div class="mb-12 max-w-3xl mx-auto p-8 border-t border-white/10">
+                <i data-lucide="shield-check" class="w-8 h-8 text-sqs-accent mx-auto mb-4 opacity-80"></i>
+                <p class="text-lg text-gray-400 font-light italic">
+                    "La sociedad garantiza que las actividades de tecnología profunda e inteligencia artificial se desarrollarán conforme a las normativas de ética y manejo de datos vigentes."
+                </p>
+            </div>
+
+            <div class="flex items-center justify-center gap-4 mb-6">
+                <img src="Logo Syntropyc.jpeg" alt="Syntropyc Logo" class="h-12 w-12 object-cover rounded-xl" onerror="this.style.display='none'">
+                <h3 class="text-2xl font-bold tracking-[0.2em] uppercase brand-text">Syntropyc</h3>
+            </div>
+            
+            <p class="text-sqs-accent mb-10 text-lg">Tecnología Profunda para la Ciencia y la Industria</p>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-16">
+                <a href="mailto:info@syntropycqs.com" class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-colors text-white font-medium">
+                    <i data-lucide="mail" class="w-5 h-5"></i> info@syntropycqs.com
+                </a>
+                <div class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-white/5 border border-white/10 text-gray-300">
+                    <i data-lucide="map-pin" class="w-5 h-5"></i> Cartagena, Colombia
+                </div>
+            </div>
+
+            <p class="text-gray-600 text-sm border-t border-white/5 pt-8">
+                &copy; 2026 Syntropyc S.A.S. Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/573148871652" target="_blank" class="whatsapp-float" aria-label="Contactar por WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+        </svg>
+    </a>
+
+    <!-- Initialize Scripts -->
+    <script>
+        // Check for JS initialization safety
+        try {
+            // Initialize Lucide Icons
+            lucide.createIcons();
+        } catch(e) { console.error('Lucide error:', e); }
+        
+        try {
+            // Initialize AOS animations
+            AOS.init({
+                once: true,
+                offset: 50,
+                duration: 800,
+            });
+        } catch(e) {
+            // Fallback: force visibility if AOS fails
+            document.querySelectorAll('[data-aos]').forEach(el => {
+                el.style.opacity = '1';
+                el.style.transform = 'none';
+            });
+        }
+
+        try {
+            // Initialize tsParticles (Quantum Network Background)
+            tsParticles.load("tsparticles", {
+                fpsLimit: 60,
+                interactivity: {
+                    events: {
+                        onHover: { enable: true, mode: "grab" },
+                        resize: true,
+                    },
+                    modes: {
+                        grab: { distance: 200, links: { opacity: 0.8, color: "#8ecae6" } },
+                    },
+                },
+                particles: {
+                    color: { value: ["#8ecae6", "#ff6b6b", "#4a00e0"] },
+                    links: {
+                        color: "#ffffff",
+                        distance: 150,
+                        enable: true,
+                        opacity: 0.15,
+                        width: 1.5,
+                    },
+                    move: {
+                        direction: "none",
+                        enable: true,
+                        outModes: { default: "bounce" },
+                        random: true,
+                        speed: 0.8,
+                        straight: false,
+                    },
+                    number: { density: { enable: true, area: 800 }, value: 60 },
+                    opacity: { value: 0.6, animation: { enable: true, minimumValue: 0.1, speed: 1, sync: false } },
+                    shape: { type: "circle" },
+                    size: { value: { min: 1, max: 4 } },
+                },
+                detectRetina: true,
+            });
+        } catch(e) { console.error('tsParticles error:', e); }
+
+        try {
+            // Initialize Vanilla Tilt for 3D Cards
+            VanillaTilt.init(document.querySelectorAll(".interactive-card"), {
+                max: 5,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.15,
+                perspective: 1000,
+                scale: 1.02
+            });
+        } catch(e) { console.error('Vanilla Tilt error:', e); }
+
+        // Initialize mouse tracking for glow effect on cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Navbar blur on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(6, 3, 20, 0.8)';
+                nav.style.borderBottom = '1px solid rgba(255, 255, 255, 0.1)';
+                nav.style.boxShadow = '0 10px 30px -10px rgba(0,0,0,0.8)';
+            } else {
+                nav.style.background = 'rgba(6, 3, 20, 0.6)';
+                nav.style.borderBottom = '1px solid rgba(255, 255, 255, 0.05)';
+                nav.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
