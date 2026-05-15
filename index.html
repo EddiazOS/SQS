@@ -240,6 +240,8 @@
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
     <!-- Vanilla Tilt for 3D card effects -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 </head>
 <body class="antialiased selection:bg-sqs-secondary selection:text-white">
 
@@ -250,7 +252,7 @@
     <nav class="fixed top-0 w-full z-50 glass-nav py-4 transition-all duration-300" id="navbar">
         <div class="container mx-auto px-6 max-w-7xl flex justify-between items-center">
             <a href="#" class="flex items-center gap-3 group">
-                <img src="Logo Syntropyc.jpeg" alt="Syntropyc Logo" class="h-10 w-10 object-cover rounded-lg shadow-lg border border-white/10 group-hover:scale-105 transition-transform" onerror="this.src='https://via.placeholder.com/40x40/1d1160/ffffff?text=S'">
+                <img src="./assets/img/logo.jpeg" alt="Syntropyc Logo" class="h-10 w-10 object-cover rounded-lg shadow-lg border border-white/10 group-hover:scale-105 transition-transform" onerror="this.src='https://via.placeholder.com/40x40/1d1160/ffffff?text=S'">
                 <span class="text-xl font-bold tracking-[0.2em] uppercase text-white group-hover:text-sqs-accent transition-colors brand-text">Syntropyc</span>
             </a>
             <div class="hidden md:flex gap-8 text-sm font-medium text-gray-300">
@@ -292,7 +294,7 @@
                 <!-- Visual Content -->
                 <div class="relative hidden lg:block animate-float tilt-element" data-aos="fade-left" data-aos-duration="1500" data-aos-delay="200">
                     <div class="absolute inset-0 bg-gradient-to-tr from-sqs-primary/40 to-transparent rounded-[3rem] transform rotate-3 scale-105 -z-10 blur-xl"></div>
-                    <img src="file:///C:/Users/ELIAS%20BELLO/.gemini/antigravity/brain/017c938d-519b-441c-9e1c-08ebf89ff891/hero_deep_tech_1778643130304.png" 
+                    <img src="./assets/img/hero_deep_tech.png" 
                          alt="Syntropyc Deep Tech" 
                          class="rounded-[3rem] shadow-2xl border border-white/10 w-full object-cover h-[600px]"
                          onerror="this.style.display='none'">
@@ -379,7 +381,7 @@
                         </div>
                         <div class="relative h-64 md:h-auto overflow-hidden">
                             <div class="absolute inset-0 bg-gradient-to-r from-[#060314] to-transparent z-10 hidden md:block"></div>
-                            <img src="file:///C:/Users/ELIAS%20BELLO/.gemini/antigravity/brain/017c938d-519b-441c-9e1c-08ebf89ff891/molecular_sim_1778643149719.png" alt="Simulación Molecular" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000 image-mask" onerror="this.style.display='none'">
+                            <img src="./assets/img/molecular_sim.png" alt="Simulación Molecular" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000 image-mask" onerror="this.style.display='none'" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -389,7 +391,7 @@
                     <div class="grid md:grid-cols-2 tilt-content">
                         <div class="relative h-64 md:h-auto overflow-hidden order-2 md:order-1">
                             <div class="absolute inset-0 bg-gradient-to-l from-[#060314] to-transparent z-10 hidden md:block"></div>
-                            <img src="file:///C:/Users/ELIAS%20BELLO/.gemini/antigravity/brain/017c938d-519b-441c-9e1c-08ebf89ff891/saas_ecosystem_3d_1778644763936.png" alt="SaaS Corporativos" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000 image-mask" onerror="this.style.display='none'">
+                            <img src="./assets/img/saas_ecosystem.png" alt="SaaS Corporativos" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000 image-mask" onerror="this.style.display='none'" loading="lazy">
                         </div>
                         <div class="p-10 lg:p-14 flex flex-col justify-center order-1 md:order-2">
                             <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-sqs-primary text-white font-black mb-8 shadow-[0_0_20px_rgba(29,17,96,0.8)] border border-white/10">2</div>
@@ -431,7 +433,7 @@
                         </div>
                         <div class="relative h-64 md:h-auto overflow-hidden">
                             <div class="absolute inset-0 bg-gradient-to-r from-[#060314] to-transparent z-10 hidden md:block"></div>
-                            <img src="file:///C:/Users/ELIAS%20BELLO/.gemini/antigravity/brain/017c938d-519b-441c-9e1c-08ebf89ff891/ai_brain_1778643191634.png" alt="Inteligencia Artificial" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000 image-mask" onerror="this.style.display='none'">
+                            <img src="./assets/img/ai_brain.png" alt="Inteligencia Artificial" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000 image-mask" onerror="this.style.display='none'" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -532,7 +534,7 @@
         </div>
     </section>
 
-    <!-- CONTACT SECTION (NEW) -->
+    <!-- CONTACT SECTION -->
     <section id="contacto" class="py-32 relative z-10 border-t border-white/5 bg-black/40 backdrop-blur-md">
         <div class="container mx-auto px-6 max-w-5xl">
             <div class="text-center mb-16" data-aos="fade-up">
@@ -580,7 +582,7 @@
             </div>
 
             <div class="flex items-center justify-center gap-4 mb-6">
-                <img src="Logo Syntropyc.jpeg" alt="Syntropyc Logo" class="h-12 w-12 object-cover rounded-xl" onerror="this.style.display='none'">
+                <img src="./assets/img/logo.jpeg" alt="Syntropyc Logo" class="h-12 w-12 object-cover rounded-xl" onerror="this.style.display='none'">
                 <h3 class="text-2xl font-bold tracking-[0.2em] uppercase brand-text">Syntropyc</h3>
             </div>
             
@@ -602,7 +604,7 @@
     </footer>
 
     <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/573148871652" target="_blank" class="whatsapp-float" aria-label="Contactar por WhatsApp">
+    <a href="https://wa.me/573148871652" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Contactar por WhatsApp">
         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" viewBox="0 0 16 16">
             <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
         </svg>
@@ -610,21 +612,15 @@
 
     <!-- Initialize Scripts -->
     <script>
-        // Check for JS initialization safety
-        try {
-            // Initialize Lucide Icons
-            lucide.createIcons();
-        } catch(e) { console.error('Lucide error:', e); }
+        try { lucide.createIcons(); } catch(e) { console.error('Lucide error:', e); }
         
         try {
-            // Initialize AOS animations
             AOS.init({
                 once: true,
                 offset: 50,
                 duration: 800,
             });
         } catch(e) {
-            // Fallback: force visibility if AOS fails
             document.querySelectorAll('[data-aos]').forEach(el => {
                 el.style.opacity = '1';
                 el.style.transform = 'none';
@@ -632,7 +628,6 @@
         }
 
         try {
-            // Initialize tsParticles (Quantum Network Background)
             tsParticles.load("tsparticles", {
                 fpsLimit: 60,
                 interactivity: {
@@ -671,7 +666,6 @@
         } catch(e) { console.error('tsParticles error:', e); }
 
         try {
-            // Initialize Vanilla Tilt for 3D Cards
             VanillaTilt.init(document.querySelectorAll(".interactive-card"), {
                 max: 5,
                 speed: 400,
@@ -682,7 +676,6 @@
             });
         } catch(e) { console.error('Vanilla Tilt error:', e); }
 
-        // Initialize mouse tracking for glow effect on cards
         document.querySelectorAll('.glass-card').forEach(card => {
             card.addEventListener('mousemove', e => {
                 const rect = card.getBoundingClientRect();
@@ -693,7 +686,6 @@
             });
         });
 
-        // Navbar blur on scroll
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 50) {
